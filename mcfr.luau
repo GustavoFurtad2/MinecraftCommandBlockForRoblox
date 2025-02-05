@@ -1,6 +1,8 @@
 local CommandBlock = {}
 CommandBlock__index = CommandBlock
 
+local StarterGui = game:GetService("StarterGui")
+
 local function split(s, delimiter)
 
 	local result = {}
@@ -63,14 +65,12 @@ function CommandBlock:execute(commandSourceCode)
 	if commands[command] then
 		
 		if #parameters > commands[command].numberOfArguments then
-			print("mcfr: invalid command")
-			return
+			return "[MCFR]: Invalid command"
 		end
 				
-		local message = commands[command].execute(parameters)
-		
-		print(message)
+		return "[MCFR]: " .. commands[command].execute(parameters)
 	end
+	
 end
 
 return CommandBlock
