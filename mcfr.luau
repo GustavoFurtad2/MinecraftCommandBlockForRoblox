@@ -1,9 +1,21 @@
 local CommandBlock = {}
 CommandBlock__index = CommandBlock
 
+local function split(s, delimiter)
+
+	local result = {}
+
+	for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+		table.insert(result, match)
+	end
+
+	return result
+end
+
 local commands = {
 	["list"] = {
 		description = "/list - Exibe uma lista de jogadores online no servidor.",
+		numberOfArguments = 0,
 		
 		execute = function()
 			
@@ -20,7 +32,7 @@ local commands = {
 				end
 			end
 			
-			print(message)
+			return message
 		end,
 	}
 }
@@ -32,11 +44,20 @@ end
 
 function CommandBlock:execute(commandSourceCode)
 	
-	local command = commandSourceCode:match("^(%S+)"):sub(2)
+	local charOffset = 2
+	local command = commandSourceCode:match("^(%S+)"):sub(charOffset)
+	
+	local sourceCodeParameters
+		
+	if command:len() + charOffset - 1 < commandSourceCode:len() then
+		sourceCodeParameters = commandSourceCode:sub(command:len() + charOffset + 1, commandSourceCode:len())
+	end
+		
+	local parameters = split(sourceCodeParameters, " ")
 	
 	if commands[command] then
 		
-		commands[command].execute()
+		commands[command].execute(parameters)
 	end
 end
 
