@@ -17,7 +17,7 @@ local commands = {
 		description = "/list - Exibe uma lista de jogadores online no servidor.",
 		numberOfArguments = 0,
 		
-		execute = function()
+		execute = function(...)
 			
 			local message = "Online players: "
 			
@@ -30,6 +30,10 @@ local commands = {
 				if index ~= #players then
 					message = message .. ","
 				end
+			end
+			
+			for k, v in next, ... do
+				print(v)
 			end
 			
 			return message
@@ -47,17 +51,25 @@ function CommandBlock:execute(commandSourceCode)
 	local charOffset = 2
 	local command = commandSourceCode:match("^(%S+)"):sub(charOffset)
 	
+	local commandSize = command:len() + charOffset - 1
 	local sourceCodeParameters
 		
-	if command:len() + charOffset - 1 < commandSourceCode:len() then
+	if commandSize < commandSourceCode:len() then
 		sourceCodeParameters = commandSourceCode:sub(command:len() + charOffset + 1, commandSourceCode:len())
 	end
-		
-	local parameters = split(sourceCodeParameters, " ")
 	
+	local parameters = commandSize < commandSourceCode:len() and split(sourceCodeParameters, " ") or {}
+		
 	if commands[command] then
 		
-		commands[command].execute(parameters)
+		if #parameters > commands[command].numberOfArguments then
+			print("mcfr: invalid command")
+			return
+		end
+				
+		local message = commands[command].execute(parameters)
+		
+		print(message)
 	end
 end
 
