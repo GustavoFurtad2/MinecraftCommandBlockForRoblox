@@ -11,3 +11,7 @@ local commander = mcfr.new() -- create a new command block
 
 commander:execute("/list")
 ```
+
+# Ported commands
+
+```/list``` Show player onllines
