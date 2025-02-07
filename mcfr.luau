@@ -16,29 +16,46 @@ local function split(s, delimiter)
 	return result
 end
 
-local commands = {
-	["list"] = {
-		description = "/list - Exibe uma lista de jogadores online no servidor.",
-		numberOfArguments = 0,
-		
-		execute = function()
-			
-			local message = "Online players: "
-			
-			local players = game:GetService("Players"):GetChildren()
-			
-			for index, player in next, players do
-				
-				message = message .. player.Name
-				
-				if index ~= #players then
-					message = message .. ","
-				end
-			end
+local commands = {}
 
-			return message
-		end,
-	},
+commands["list"] = {
+	description = "/list - Exibe uma lista de jogadores online no servidor.",
+	numberOfArguments = 0,
+		
+	execute = function()
+			
+		local message = "Online players: "
+			
+		local players = game:GetService("Players"):GetChildren()
+			
+		for index, player in next, players do
+				
+			message = message .. player.Name
+				
+			if index ~= #players then
+					message = message .. ","
+			end
+		end
+
+		return message
+	end,
+}
+
+commands["help"] = {
+	description = "/help - Exibe todos comandos",
+	numberOfArguments = 0,
+	
+	execute = function()
+
+		local message = "Comandos:\n"
+
+		for _, command in next, commands do
+
+			message = message .. command.description .. "\n"
+		end
+
+		return message
+	end
 }
 
 function CommandBlock.new()
