@@ -34,13 +34,9 @@ local commands = {
 				end
 			end
 			
-			for k, v in next, ... do
-				print(v)
-			end
-			
 			return message
 		end,
-	}
+	},
 }
 
 function CommandBlock.new()
