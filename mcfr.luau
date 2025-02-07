@@ -33,7 +33,7 @@ commands["list"] = {
 			message = message .. player.Name
 				
 			if index ~= #players then
-					message = message .. ","
+				message = message .. ","
 			end
 		end
 
@@ -81,14 +81,13 @@ function CommandBlock:execute(commandSourceCode)
 	if commands[command] then
 		
 		if #parameters > commands[command].numberOfArguments then
-			return "[MCFR]: Invalid number of arguments"
+			return "\n[MCFR]: Invalid number of arguments"
 		end
 
-		return "[MCFR]: " .. commands[command].execute(parameters)
+		return "\n[MCFR]: " .. commands[command].execute(parameters)
 	end
 		
-	return "[MCFR]: Unknown command"
+	return "\n[MCFR]: Unknown command"
 end
 
 return CommandBlock
-
