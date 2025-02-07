@@ -3,6 +3,8 @@ CommandBlock__index = CommandBlock
 
 local StarterGui = game:GetService("StarterGui")
 
+local prefix = "//"
+
 local function split(s, delimiter)
 
 	local result = {}
@@ -19,7 +21,7 @@ local commands = {
 		description = "/list - Exibe uma lista de jogadores online no servidor.",
 		numberOfArguments = 0,
 		
-		execute = function(...)
+		execute = function()
 			
 			local message = "Online players: "
 			
@@ -33,7 +35,7 @@ local commands = {
 					message = message .. ","
 				end
 			end
-			
+
 			return message
 		end,
 	},
@@ -46,27 +48,29 @@ end
 
 function CommandBlock:execute(commandSourceCode)
 	
-	local charOffset = 2
-	local command = commandSourceCode:match("^(%S+)"):sub(charOffset)
-	
-	local commandSize = command:len() + charOffset - 1
-	local sourceCodeParameters
-		
-	if commandSize < commandSourceCode:len() then
-		sourceCodeParameters = commandSourceCode:sub(command:len() + charOffset + 1, commandSourceCode:len())
+	if commandSourceCode:sub(1, #prefix) ~= prefix then
+		return
 	end
-	
-	local parameters = commandSize < commandSourceCode:len() and split(sourceCodeParameters, " ") or {}
-		
+
+	local trimmedCommand = commandSourceCode:sub(#prefix + 1)
+	local parts = split(trimmedCommand, " ")
+	local command = parts[1]
+	local parameters = {}
+
+	for i = 2, #parts do
+		table.insert(parameters, parts[i])
+	end
+
 	if commands[command] then
 		
 		if #parameters > commands[command].numberOfArguments then
-			return "[MCFR]: Invalid command"
+			return "[MCFR]: Invalid number of arguments"
 		end
-				
+
 		return "[MCFR]: " .. commands[command].execute(parameters)
 	end
-	
+		
+	return "[MCFR]: Unknown command"
 end
 
 return CommandBlock
