@@ -58,6 +58,24 @@ commands["help"] = {
 	end
 }
 
+commands["time"] = {
+	description = "/time set - Coloca em um horário especifico",
+	numberOfArguments = 2,
+	
+	execute = function(...)
+				
+		if (...)[1] ~= "set" or not (...)[2] then
+			return "Unknown command"
+		elseif tonumber((...)[2]) == nil then
+			return "O hórario deve ser um número!"
+		end
+		
+		game:GetService("Lighting").ClockTime = (...)[2] / 100
+		
+		return "O horário foi setado para " .. (...)[2]
+	end,
+}
+
 function CommandBlock.new()
 	
 	return setmetatable(CommandBlock, {})
