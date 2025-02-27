@@ -19,7 +19,7 @@ end
 local commands = {}
 
 commands["list"] = {
-	description = "/list - Exibe uma lista de jogadores online no servidor.",
+	description = "/list - Displays a list of online players on the server.",
 	numberOfArguments = 0,
 		
 	execute = function()
@@ -42,12 +42,12 @@ commands["list"] = {
 }
 
 commands["help"] = {
-	description = "/help - Exibe todos comandos",
+	description = "/help - Shows all available commands",
 	numberOfArguments = 0,
 	
 	execute = function()
 
-		local message = "Comandos:\n"
+		local message = "Commands:\n"
 
 		for _, command in next, commands do
 
@@ -72,7 +72,7 @@ commands["time"] = {
 		
 		game:GetService("Lighting").ClockTime = (...)[2] / 100
 		
-		return "O horário foi setado para " .. (...)[2]
+		return "The time was set to " .. (...)[2]
 	end,
 }
 
