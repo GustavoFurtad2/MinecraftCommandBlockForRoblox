@@ -3,8 +3,6 @@ CommandBlock__index = CommandBlock
 
 local StarterGui = game:GetService("StarterGui")
 
-local prefix = "//"
-
 local function split(s, delimiter)
 
 	local result = {}
@@ -81,7 +79,7 @@ function CommandBlock.new()
 	return setmetatable(CommandBlock, {})
 end
 
-function CommandBlock:execute(commandSourceCode)
+function CommandBlock:execute(commandSourceCode, prefix)
 	
 	if commandSourceCode:sub(1, #prefix) ~= prefix then
 		return
