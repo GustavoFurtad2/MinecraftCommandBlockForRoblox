@@ -2,6 +2,7 @@ local CommandBlock = {}
 CommandBlock__index = CommandBlock
 
 local StarterGui = game:GetService("StarterGui")
+local Lightning = game:GetService("Lighting")
 
 local function split(s, delimiter)
 
@@ -68,7 +69,7 @@ commands["time"] = {
 			return "O hórario deve ser um número!"
 		end
 		
-		game:GetService("Lighting").ClockTime = (...)[2] / 100
+		Lightning.ClockTime = (...)[2] / 100
 		
 		return "The time was set to " .. (...)[2]
 	end,
@@ -98,9 +99,9 @@ function CommandBlock:execute(commandSourceCode, prefix)
 		
 		if #parameters > commands[command].numberOfArguments then
 			return "\n[MCFR]: Invalid number of arguments"
+		else
+			return "\n[MCFR]: " .. commands[command].execute(parameters)
 		end
-
-		return "\n[MCFR]: " .. commands[command].execute(parameters)
 	end
 		
 	return "\n[MCFR]: Unknown command"
